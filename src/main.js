@@ -25,6 +25,7 @@ const loadingStatus = document.querySelector('.loading-status')
 const progressBar = document.querySelector('[data-scroll-progress]')
 const chapterIndex = document.querySelector('[data-chapter-index]')
 const header = document.querySelector('[data-header]')
+const concierge = document.querySelector('#concierge')
 
 let desiredFrame = 0
 let displayedFrame = -1
@@ -100,6 +101,20 @@ function findNearestLoaded(target) {
   return -1
 }
 
+function viewHeight() {
+  return Math.round(window.visualViewport?.height || window.innerHeight)
+}
+
+function isCompactView() {
+  return window.innerWidth <= 800
+}
+
+function setAppHeight() {
+  document.documentElement.style.setProperty('--app-height', `${viewHeight()}px`)
+  document.documentElement.classList.toggle('is-compact', isCompactView())
+  document.documentElement.classList.toggle('is-short', viewHeight() <= 540)
+}
+
 function resizeCanvas() {
   if (!canvas || !ctx) return
   const dpr = Math.min(window.devicePixelRatio || 1, 1.5)
@@ -154,7 +169,7 @@ function drawFrame(progress) {
 function sequenceProgress() {
   if (!sequence) return 0
   const rect = sequence.getBoundingClientRect()
-  const travel = Math.max(1, sequence.offsetHeight - window.innerHeight)
+  const travel = Math.max(1, sequence.offsetHeight - viewHeight())
   return Math.max(0, Math.min(1, -rect.top / travel))
 }
 
@@ -177,6 +192,7 @@ function chapterOpacity(progress, start, end) {
 
 function updateChapters(progress) {
   let active = 0
+  const compact = isCompactView()
   chapters.forEach((chapter, index) => {
     const start = Number(chapter.dataset.start)
     const end = Number(chapter.dataset.end)
@@ -184,9 +200,13 @@ function updateChapters(progress) {
     if (opacity > .45) active = index
     chapter.style.opacity = opacity.toFixed(3)
     chapter.style.visibility = opacity > .01 ? 'visible' : 'hidden'
-    const shift = (1 - opacity) * 18
-    const pan = (progress - (start + end) / 2) * (window.innerWidth > 800 ? 26 : 12)
-    const base = chapter.classList.contains('chapter--hero') && window.innerWidth > 800
+    const shift = (1 - opacity) * (compact ? 10 : 18)
+    if (compact) {
+      chapter.style.transform = `translate3d(0, ${shift}px, 0)`
+      return
+    }
+    const pan = (progress - (start + end) / 2) * (window.innerWidth > 1100 ? 26 : 14)
+    const base = chapter.classList.contains('chapter--hero')
       ? 'translate(-50%, -52%)'
       : 'translate(0, 0)'
     chapter.style.transform = `${base} translate3d(${pan.toFixed(2)}px, ${shift}px, 0)`
@@ -198,6 +218,7 @@ function requestRender() {
   if (raf) return
   raf = requestAnimationFrame((now) => {
     raf = 0
+    if (header && concierge) header.dataset.light = String(concierge.getBoundingClientRect().top < 72)
     if (reduceMotion.matches) {
       poster.src = frameUrl(FRAME_COUNT - 1)
       updateDrone(1)
@@ -227,8 +248,14 @@ function requestRender() {
 function scrollToProgress(progress) {
   if (!sequence) return
   const top = sequence.getBoundingClientRect().top + window.scrollY
-  const travel = sequence.offsetHeight - window.innerHeight
+  const travel = sequence.offsetHeight - viewHeight()
   window.scrollTo({ top: top + travel * progress, behavior: reduceMotion.matches ? 'auto' : 'smooth' })
+}
+
+function onViewportChange() {
+  setAppHeight()
+  resizeCanvas()
+  requestRender()
 }
 
 document.querySelectorAll('a[href="#arrival"]').forEach((link) => {
@@ -267,9 +294,13 @@ document.addEventListener('keydown', (event) => {
 })
 
 window.addEventListener('scroll', requestRender, { passive: true })
-window.addEventListener('resize', () => { resizeCanvas(); requestRender() }, { passive: true })
+window.addEventListener('resize', onViewportChange, { passive: true })
+window.addEventListener('orientationchange', onViewportChange)
+window.addEventListener('touchmove', requestRender, { passive: true })
+window.visualViewport?.addEventListener('resize', onViewportChange)
 reduceMotion.addEventListener?.('change', () => location.reload())
 
+setAppHeight()
 resizeCanvas()
 initContactPortal()
 preloadInitial().catch(() => {

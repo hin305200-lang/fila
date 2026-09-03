@@ -142,6 +142,7 @@ export function initContactPortal() {
     portal.hidden = !open
     portal.setAttribute('aria-hidden', String(!open))
     document.body.style.overflow = open ? 'hidden' : ''
+    document.documentElement.classList.toggle('is-portal-open', open)
     chrome.forEach((el) => { if (el) el.inert = open })
     window.clearInterval(clockTimer)
     if (open) {
