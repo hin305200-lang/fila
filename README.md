@@ -9,9 +9,7 @@ pnpm build
 python3 -m http.server 4173 --directory dist
 ```
 
-The 157-frame sequence lives in `public/assets/hero-frames.zip` so the repo stays under GitHub’s 100-file web upload limit. `pnpm build` unpacks it into `dist`.
-
-When adding this project on GitHub, do not upload `dist`, `.tmp-dubai`, `.tmp-paris-backup`, or `.tmp-refs`.
+The 157-frame cloud sequence lives in `assets/hero-frames`. `pnpm build` copies it into `dist`.
 
 Open `http://127.0.0.1:4173`.
 

@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { readFile } from 'node:fs/promises'
+import { readFile, readdir } from 'node:fs/promises'
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), 'utf8')
 
@@ -11,16 +11,7 @@ test('reference map is independently verified', async () => {
 })
 
 test('image sequence is complete and ordered', async () => {
-  const { execFileSync } = await import('node:child_process')
-  const zip = new URL('../public/assets/hero-frames.zip', import.meta.url)
-  const listing = execFileSync(
-    'python3',
-    ['-c', 'import zipfile,sys; print("\\n".join(zipfile.ZipFile(sys.argv[1]).namelist()))', zip.pathname],
-    { encoding: 'utf8' },
-  )
-  const frames = listing
-    .split('\n')
-    .map((name) => name.replace(/^.*\//, '').trim())
+  const frames = (await readdir(new URL('../assets/hero-frames/', import.meta.url)))
     .filter((name) => /^frame-\d{3}\.webp$/.test(name))
     .sort()
   assert.equal(frames.length, 157)
