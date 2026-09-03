@@ -1,0 +1,7 @@
+dist/
+.tmp-dubai/
+.tmp-paris-backup/
+.tmp-refs/
+.DS_Store
+node_modules/
+public/assets/hero-frames/

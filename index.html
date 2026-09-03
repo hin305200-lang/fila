@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#030712" />
+    <meta
+      name="description"
+      content="v.co.ai is a luxury travel agency — VIP bookings, private jets, worldwide itineraries, and professional crews who help content creators shoot at the highest level."
+    />
+    <title>v.co.ai — Luxury travel, revealed</title>
+    <link rel="preload" as="image" href="./assets/hero-frames/frame-001.webp" fetchpriority="high" />
+    <link rel="stylesheet" href="./src/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#journey">Skip to the journey</a>
+
+    <header class="site-header" data-header>
+      <a class="brand" href="#top" aria-label="v.co.ai home">
+        <img src="./src/brand-mark.svg" alt="" width="30" height="30" />
+        <span>v.co.ai</span>
+      </a>
+
+      <nav class="nav-pill" aria-label="Primary navigation">
+        <a class="is-current" href="#top">Home</a>
+        <a href="#journey">Journey</a>
+        <a href="#arrival">Arrival</a>
+        <a href="#concierge">Book</a>
+      </nav>
+
+      <button class="menu-trigger" type="button" aria-expanded="false" aria-controls="menu-panel">
+        <span>Open menu</span>
+        <svg viewBox="0 0 18 18" aria-hidden="true">
+          <path d="M3 6h12M3 12h12" />
+        </svg>
+      </button>
+    </header>
+
+    <div class="menu-backdrop" data-menu-backdrop hidden></div>
+    <aside class="menu-panel" id="menu-panel" aria-label="Menu" aria-hidden="true" inert>
+      <div class="menu-panel__top">
+        <span>v.co.ai / WORLD</span>
+        <button class="menu-close" type="button" aria-label="Close menu">
+          <svg viewBox="0 0 18 18" aria-hidden="true"><path d="m4 4 10 10M14 4 4 14" /></svg>
+        </button>
+      </div>
+      <nav aria-label="Expanded navigation">
+        <a href="#top"><span>01</span> Home</a>
+        <a href="#journey"><span>02</span> The journey</a>
+        <a href="#arrival"><span>03</span> Arrival</a>
+        <a href="#concierge"><span>04</span> Book travel</a>
+      </nav>
+      <p>Luxury travel, private jets, and creator crews who shoot like a studio.</p>
+    </aside>
+
+    <main id="top">
+      <section class="sequence-stage" id="journey" aria-label="From the night sky to your destination" data-sequence>
+        <div class="sequence-viewport">
+          <img
+            class="sequence-poster"
+            src="./assets/hero-frames/frame-001.webp"
+            alt="Night view of clouds through an airplane window"
+            fetchpriority="high"
+          />
+          <canvas class="sequence-canvas" aria-hidden="true"></canvas>
+          <div class="media-scrim" aria-hidden="true"></div>
+          <div class="sequence-grade" aria-hidden="true"></div>
+          <div class="drone-layer" data-drone-layer aria-hidden="true">
+            <img class="drone-layer__ghost" data-drone-ghost src="./src/drone.svg" alt="" />
+            <img class="drone-layer__ghost" data-drone-ghost src="./src/drone.svg" alt="" />
+            <img class="drone-layer__craft" data-drone-craft src="./src/drone.svg" alt="" />
+          </div>
+          <div class="sequence-grain" aria-hidden="true"></div>
+
+          <div class="loading-status" role="status" aria-live="polite">
+            <span>Preparing the view</span>
+            <span class="loading-status__track"><span data-load-progress></span></span>
+          </div>
+
+          <div class="chapter chapter--hero" data-chapter="hero" data-start="0" data-end="0.19">
+            <p class="eyebrow">WORLD / FIRST CLASS</p>
+            <h1>Travel begins<br />before you land.</h1>
+            <p class="chapter__body">VIP bookings, private jets, and creator trips shot at a studio level.</p>
+            <button class="primary-cta" type="button" data-contact-open>
+              <span>Contact me now</span>
+              <span class="primary-cta__icon" aria-hidden="true">↗</span>
+            </button>
+          </div>
+
+          <div class="chapter chapter--left" data-chapter="threshold" data-start="0.15" data-end="0.36">
+            <p class="eyebrow">01 — THE THRESHOLD</p>
+            <h2>Leave the tourist route behind.</h2>
+            <p class="chapter__body">We design the quiet hours between takeoff and the last golden light.</p>
+          </div>
+
+          <div class="chapter chapter--cloud" data-chapter="cloud" data-start="0.34" data-end="0.62">
+            <p class="eyebrow">02 — BETWEEN WORLDS</p>
+            <h2>The world waits beneath the clouds.</h2>
+            <p class="chapter__body">Private aviation. Luxury stays. Every kind of journey, handled.</p>
+          </div>
+
+          <div class="chapter chapter--right" data-chapter="reveal" data-start="0.61" data-end="0.83">
+            <p class="eyebrow">03 — FIRST LIGHT</p>
+            <h2>Your trip,<br />revealed.</h2>
+          </div>
+
+          <div class="chapter chapter--arrival" id="arrival" data-chapter="arrival" data-start="0.82" data-end="1">
+            <p class="eyebrow">04 — YOUR ARRIVAL</p>
+            <h2>Arrive beyond<br />the ordinary.</h2>
+            <p class="chapter__body">VIP from tarmac to suite.</p>
+            <a class="primary-cta" href="#concierge">
+              <span>Book my journey</span>
+              <span class="primary-cta__icon" aria-hidden="true">↗</span>
+            </a>
+          </div>
+
+          <div class="sequence-meta" aria-hidden="true">
+            <span data-chapter-index>00</span>
+            <span class="sequence-meta__line"><span data-scroll-progress></span></span>
+            <span>04</span>
+          </div>
+
+          <div class="scroll-cue" aria-hidden="true">
+            <span>Scroll to descend</span>
+            <i></i>
+          </div>
+        </div>
+      </section>
+
+      <section class="concierge" id="concierge" aria-labelledby="concierge-title">
+        <div class="concierge__intro">
+          <p class="eyebrow">A WORLD, BOOKED FOR YOU</p>
+          <h2 id="concierge-title">Every kind of journey,<br />handled like a private world.</h2>
+          <p>
+            v.co.ai is a luxury travel agency — private jets, VIP reservations, worldwide itineraries,
+            and professional crews who help content creators shoot videos the most cinematic way possible.
+          </p>
+        </div>
+
+        <div class="proof-grid">
+          <article class="proof-card">
+            <span class="proof-card__icon" aria-hidden="true">✦</span>
+            <p class="eyebrow">PRIVATE AVIATION</p>
+            <h3>Private jet, anywhere</h3>
+            <p>First class, charters, and a jet of your own — we move you the way the trip deserves.</p>
+          </article>
+          <article class="proof-card">
+            <span class="proof-card__icon" aria-hidden="true">↗</span>
+            <p class="eyebrow">CREATOR CREWS</p>
+            <h3>Shot like a studio</h3>
+            <p>Pro crews travel with you so the videos match the luxury of the itinerary.</p>
+          </article>
+        </div>
+
+        <div class="final-cta">
+          <div>
+            <p class="eyebrow">YOUR JOURNEY STARTS HERE</p>
+            <h2>Tell us how you want<br />the world to feel.</h2>
+          </div>
+          <button class="signal-cta" type="button" data-contact-open>
+            <i class="signal-cta__prism" aria-hidden="true"></i>
+            <span class="signal-cta__meta">Inbound protocol</span>
+            <span class="signal-cta__label">Contact us now</span>
+            <span class="signal-cta__core" aria-hidden="true">
+              <i></i>
+            </span>
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <a class="brand" href="#top">
+        <img src="./src/brand-mark.svg" alt="" width="30" height="30" />
+        <span>v.co.ai</span>
+      </a>
+      <p>Travel, cinematically yours.</p>
+      <p>© 2026 v.co.ai</p>
+    </footer>
+
+    <div class="portal" data-portal hidden>
+      <div class="portal__void" data-portal-void aria-hidden="true">
+        <i class="portal__aurora"></i>
+        <i class="portal__grid"></i>
+        <i class="portal__orb portal__orb--a"></i>
+        <i class="portal__orb portal__orb--b"></i>
+        <i class="portal__orb portal__orb--c"></i>
+        <i class="portal__scanline"></i>
+        <b class="portal__stream portal__stream--l"></b>
+        <b class="portal__stream portal__stream--r"></b>
+      </div>
+      <div class="portal__shell" role="dialog" aria-modal="true" aria-labelledby="portal-title">
+        <i class="portal__prism" aria-hidden="true"></i>
+        <button class="portal__abort" type="button" data-portal-close aria-label="Close contact">
+          <svg viewBox="0 0 18 18" aria-hidden="true"><path d="m4 4 10 10M14 4 4 14" /></svg>
+        </button>
+        <p class="portal__meta">
+          <span>v.co.ai</span>
+          <span data-portal-clock>00:00:00.00</span>
+          <span>inbound protocol</span>
+        </p>
+        <div class="portal__ring" aria-hidden="true">
+          <i class="portal__halo"></i>
+          <svg viewBox="0 0 120 120">
+            <circle class="portal__track" cx="60" cy="60" r="52" />
+            <circle class="portal__orbit" cx="60" cy="60" r="44" />
+            <circle class="portal__value" data-portal-ring cx="60" cy="60" r="52" />
+          </svg>
+          <ol class="portal__nodes">
+            <li data-portal-node="0"></li>
+            <li data-portal-node="1"></li>
+            <li data-portal-node="2"></li>
+          </ol>
+          <span data-portal-count>01</span>
+        </div>
+        <p class="eyebrow" data-portal-kicker>01 — IDENTITY</p>
+        <h2 id="portal-title" data-portal-title>State your name.</h2>
+        <form class="portal__form" data-portal-form novalidate>
+          <label class="portal__field">
+            <span class="visually-hidden" data-portal-label>Name</span>
+            <input data-portal-input name="identity" autocomplete="name" spellcheck="false" />
+            <i class="portal__beam"></i>
+          </label>
+          <p class="portal__hint" data-portal-hint role="status"></p>
+          <button class="primary-cta portal__go" type="submit">
+            <span data-portal-action>Continue</span>
+            <span class="primary-cta__icon" aria-hidden="true">↗</span>
+          </button>
+        </form>
+        <div class="portal__handshake" data-portal-handshake hidden>
+          <span data-portal-handshake-text>linking identity</span>
+          <i></i>
+        </div>
+        <div class="portal__done" data-portal-done hidden>
+          <p>Your itinerary is in motion. Keep your line open.</p>
+        </div>
+      </div>
+    </div>
+
+    <noscript>
+      <style>
+        .loading-status, .sequence-canvas, .scroll-cue, .sequence-meta, .drone-layer { display: none !important; }
+        .sequence-stage { height: auto !important; }
+        .sequence-viewport { position: relative !important; min-height: 100dvh; }
+        .chapter { opacity: 1 !important; visibility: visible !important; position: relative !important; transform: none !important; margin: 2rem !important; }
+      </style>
+    </noscript>
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
