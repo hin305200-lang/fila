@@ -35,7 +35,7 @@ let lastScroll = window.scrollY
 let displayedProgress = 0
 let lastTime = 0
 const REVEAL_HOLD = 0.1
-const CAMERA_FOLLOW = 7
+const CAMERA_FOLLOW = 9
 
 const frameUrl = (index) =>
   `${HERO_FRAMES.directory}/${HERO_FRAMES.prefix}${String(index + 1).padStart(HERO_FRAMES.pad, '0')}${HERO_FRAMES.extension}`
@@ -48,6 +48,7 @@ function loadFrame(index) {
   const task = new Promise((resolve, reject) => {
     const image = new Image()
     image.decoding = 'async'
+    if (bounded < 3) image.fetchPriority = 'high'
     image.onload = async () => {
       try { await image.decode?.() } catch {}
       images[bounded] = image
@@ -65,29 +66,47 @@ function loadFrame(index) {
   return task
 }
 
-async function preloadInitial() {
-  const queue = [0, FRAME_COUNT - 1, ...Array.from({ length: PRELOAD_COUNT - 2 }, (_, i) => i + 1)]
-  let complete = 0
-  for (let cursor = 0; cursor < queue.length; cursor += 5) {
-    const batch = queue.slice(cursor, cursor + 5)
-    await Promise.allSettled(batch.map(loadFrame))
-    complete += batch.length
-    if (loadBar) loadBar.style.width = `${Math.min(100, (complete / queue.length) * 100)}%`
-  }
+function revealExperience() {
   document.documentElement.dataset.enhanced = 'true'
   loadingStatus?.classList.add('is-ready')
+  updateChapters(0)
   requestRender()
+}
+
+async function preloadInitial() {
+  try { await loadFrame(0) } catch {}
+  revealExperience()
+  const starters = [FRAME_COUNT - 1, ...Array.from({ length: PRELOAD_COUNT - 2 }, (_, i) => i + 1)]
+  let complete = 1
+  if (loadBar) loadBar.style.width = `${(complete / PRELOAD_COUNT) * 100}%`
+  Promise.allSettled(starters.map((index) => loadFrame(index).finally(() => {
+    complete += 1
+    if (loadBar) loadBar.style.width = `${Math.min(100, (complete / PRELOAD_COUNT) * 100)}%`
+  })))
   warmSequence()
 }
 
 function warmSequence() {
-  const order = Array.from({ length: FRAME_COUNT }, (_, i) => i).filter((i) => !loaded.has(i))
+  const stride = 5
+  const seen = new Set()
+  const order = []
+  const push = (index) => {
+    if (index < 0 || index >= FRAME_COUNT || seen.has(index) || loaded.has(index) || loading.has(index)) return
+    seen.add(index)
+    order.push(index)
+  }
+  for (let index = 0; index < FRAME_COUNT; index += stride) push(index)
+  for (let index = 0; index < FRAME_COUNT; index += 1) push(index)
   let cursor = 0
+  const batchSize = isCompactView() ? 3 : 5
   const pump = () => {
     if (cursor >= order.length) return
-    const batch = order.slice(cursor, cursor + 4)
+    const batch = order.slice(cursor, cursor + batchSize)
     cursor += batch.length
-    Promise.allSettled(batch.map(loadFrame)).finally(() => setTimeout(pump, 10))
+    Promise.allSettled(batch.map(loadFrame)).finally(() => {
+      if (typeof requestIdleCallback === 'function') requestIdleCallback(pump, { timeout: 160 })
+      else setTimeout(pump, isCompactView() ? 24 : 8)
+    })
   }
   pump()
 }
@@ -124,7 +143,7 @@ function resizeCanvas() {
     canvas.width = width
     canvas.height = height
     ctx.imageSmoothingEnabled = true
-    ctx.imageSmoothingQuality = 'high'
+    ctx.imageSmoothingQuality = isCompactView() ? 'medium' : 'high'
     requestRender()
   }
 }
@@ -232,8 +251,10 @@ function requestRender() {
     const progress = displayedProgress
     const pos = progress * (FRAME_COUNT - 1)
     desiredFrame = Math.max(0, Math.min(FRAME_COUNT - 1, Math.floor(pos)))
+    const dir = window.scrollY >= lastScroll ? 1 : -1
     loadFrame(desiredFrame).then(requestRender).catch(() => {})
-    loadFrame(Math.min(FRAME_COUNT - 1, desiredFrame + 1)).then(requestRender).catch(() => {})
+    loadFrame(desiredFrame + dir).then(requestRender).catch(() => {})
+    loadFrame(desiredFrame + dir * 2).then(requestRender).catch(() => {})
     drawFrame(progress)
     updateChapters(progress)
     updateDrone(progress)

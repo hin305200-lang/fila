@@ -10,7 +10,16 @@
     />
     <title>v.co.ai — Luxury travel, revealed</title>
     <link rel="preload" as="image" href="./assets/hero-frames/frame-001.webp" fetchpriority="high" />
+    <link rel="modulepreload" href="./src/main.js" />
+    <link rel="modulepreload" href="./src/drone-overlay.js" />
+    <link rel="modulepreload" href="./src/contact-portal.js" />
     <link rel="stylesheet" href="./src/styles.css" />
+    <script>
+      document.documentElement.style.setProperty(
+        '--app-height',
+        `${Math.round((window.visualViewport && window.visualViewport.height) || window.innerHeight)}px`,
+      )
+    </script>
   </head>
   <body>
     <a class="skip-link" href="#journey">Skip to the journey</a>

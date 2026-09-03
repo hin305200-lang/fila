@@ -264,6 +264,7 @@ html[data-enhanced="true"] .sequence-poster { opacity: 0; }
   width: min(35rem, calc(100% - 2rem));
   text-wrap: balance;
 }
+.chapter:not(.chapter--hero) { opacity: 0; visibility: hidden; }
 html[data-enhanced="true"] .chapter { opacity: 0; visibility: hidden; will-change: opacity, transform; }
 .chapter::before {
   content: "";
@@ -326,7 +327,13 @@ html[data-enhanced="true"] .chapter { opacity: 0; visibility: hidden; will-chang
 .scroll-cue i { width: 1px; height: 2.5rem; background: linear-gradient(#fff, transparent); animation: cue 1.8s ease-in-out infinite; }
 @keyframes cue { 50% { transform: translateY(.4rem); opacity: .45; } }
 
-.concierge { padding: clamp(6rem, 12vw, 12rem) clamp(1.2rem, 5vw, 6rem) 3rem; background: #ece9e1; color: #10131a; }
+.concierge {
+  padding: clamp(6rem, 12vw, 12rem) clamp(1.2rem, 5vw, 6rem) 3rem;
+  background: #ece9e1;
+  color: #10131a;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 70rem;
+}
 .concierge .eyebrow { color: rgba(16,19,26,.55); }
 .concierge__intro { display: grid; grid-template-columns: .65fr 1.55fr .75fr; align-items: start; gap: 3rem; }
 .concierge__intro h2 { font-size: clamp(3rem, 6.2vw, 7rem); }
@@ -502,7 +509,10 @@ html.is-short .menu-trigger span { display: none; }
 html.is-compact .scroll-cue,
 html.is-compact .sequence-meta,
 html.is-short .scroll-cue,
-html.is-short .sequence-meta { display: none; }
+html.is-short .sequence-meta,
+html.is-compact .sequence-grain,
+html.is-short .sequence-grain,
+html.is-compact .drone-layer__ghost { display: none; }
 
 @media (max-height: 500px) and (orientation: landscape) {
   .chapter--hero, .chapter--left, .chapter--cloud, .chapter--right, .chapter--arrival {
